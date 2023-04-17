@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: Sugestao do Chef API
+  version: v0
+servers:
+  - url: http://localhost:8080/receita
+    description: Projeto criado para aulas de Spring WebFlux com integração com o ChatGPT
+paths:
+  /all:
+    get:
+      tags:
+        - receita-controller
+      description: |
+        Retorna todas as receitas cadastradas
+      operationId: findAll
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receita'
+  /id/{id}:
+    get:
+      tags:
+        - receita-controller
+      description: |
+        Retorna uma receita por Id
+      operationId: findById
+      parameters:
+        - in: path
+          name: "id"
+          description: Id da Receita
+          required: true
+          example: 12
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receita'
+  /:
+    post:
+      tags:
+        - receita-controller
+      description: |
+        Salva uma receita no banco de dados
+      operationId: save
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receita'
+            example:
+              ingredientes: "arroz, feijao, beterraba"
+              sugestao: "arroz com feijao e beterraba cozida"  
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receita'                
+  /{id}:
+    delete:
+      tags:
+        - receita-controller
+      description: |
+        Apaga uma receita
+      operationId: delete
+      parameters:
+        - in: path
+          name: "id"
+          description: Id da Receita
+          required: true
+          example: 12
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+  /sugestao:
+    post:
+      tags:
+        - receita-controller
+      description: |
+        Retorna a sugestão de receita pelo ChatGPT
+      operationId: sugestao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receita'
+            example:
+              ingredientes: "salmão, alcaparras, aspargos e batata"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receita'
+  /saudacao:
+    post:
+      tags:
+        - receita-controller
+      description: |
+        Retorna uma saudação pelo ChatGPT
+      operationId: saudacao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Saudacao'
+            example:
+              nome: "Eduardo"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Saudacao'
+components:
+  schemas:
+    Receita:
+      type: object
+      properties:
+        id:
+          type: number
+        ingredientes:
+          type: string
+        sugestao:
+          type: string
+    Saudacao:
+      type: object
+      properties:
+        nome:
+          type: string
+        saudacao:
+          type: string

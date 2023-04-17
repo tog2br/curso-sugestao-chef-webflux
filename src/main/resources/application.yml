@@ -1,0 +1,12 @@
+# Datasource Configurations
+h2:
+  console:
+    enabled: true
+    path: /h2
+
+# R2DBC Configuration
+r2dbc:
+  url: r2dbc:h2:mem:///sugestaodb
+  username: sa
+  password:
+  initialization-mode: always
